@@ -11,14 +11,15 @@ int main() {
     //给一个最大的整型值
     SkipList<int, int> skipList(0x7fffffff);
 
+    int length = 10;
     //测试插入 //TODO 插入应该还有问题
-    for (int i = 1; i < 10; ++i) {
+    for (int i = 1; i <= length; ++i) {
         skipList.insert(i, i + 200);
     }
 
     cout << "The number of elements in skiplist is:" << skipList.size() << endl;
 
-    if (skipList.size() != 100) {
+    if (skipList.size() != length) {
         cout << "insert failur." << endl;
     } else {
         cout << "insert success." << endl;
@@ -26,21 +27,23 @@ int main() {
 
     //测试查找
     int value = -1;
-    Node<int, int> *searchResult = skipList.search(9);
+    int key = 9;
+    Node<int, int> *searchResult = skipList.search(key);
     if (searchResult != nullptr) {
         value = searchResult->getValue();
-        cout << "search result for key 9:" << value << endl;
+        cout << "search result for key " << key << ":" << value << endl;
     } else {
-        cout << "search failure for key 9" << endl;
+        cout << "search failure for key " << key << endl;
     }
 
     //重置value
     value = -1;
 
     //测试移除,测试不通过
-    bool removeResult = skipList.remove(6, value);
+    key=6;
+    bool removeResult = skipList.remove(key, value);
     if (removeResult) {
-        cout << "removed node whose key is 10 and value is " << value << endl;
+        cout << "removed node whose key is "<<key<<" and value is " << value << endl;
     } else {
         cout << "removed failure" << endl;
     }

@@ -51,7 +51,8 @@ private:
     //创建一个新的结点，节点的层数为level
     void createNode(int level, Node<K, V> *&node);
 
-    void createNode(int level,Node<K,V>*&node,K key,V value);
+    void createNode(int level, Node<K, V> *&node, K key, V value);
+
     //随机生成一个level
     int getRandomLevel();
 
@@ -95,13 +96,19 @@ void SkipList<K, V>::createNode(int level, Node<K, V> *&node) {
     if (level > 0) {
         node->forward = new Node<K, V> *[level];
     }
+    ////////////////////////////TODO 有必要这样吗？但是目前发现好像还真是这个原因!!!难道是编译器把它当成了二维数组的原因？///////////////////
+    for (int i = 0; i < level; ++i) {
+        node->forward[i] = new Node<K, V>(NULL, NULL);
+    }
+    //////////////////////////////////////////////////////////////
+
     node->nodeLevel = level;
     assert(node != NULL);
 };
 
-template<typename K,typename V>
-void SkipList<K,V>::createNode(int level,Node<K,V>*&node,K key,V value){
-    node = new Node<K, V>(key,value);
+template<typename K, typename V>
+void SkipList<K, V>::createNode(int level, Node<K, V> *&node, K key, V value) {
+    node = new Node<K, V>(key, value);
     //需要初始化数组
     //TODO 这里需要对数组逐个初始化吗?
     if (level > 0) {
@@ -145,11 +152,14 @@ Node<K, V> *SkipList<K, V>::search(const K key) const {
 template<typename K, typename V>
 bool SkipList<K, V>::insert(K key, V value) {
     Node<K, V> *update[MAX_LEVEL];
+    //TODO 这里要记得进行回收
+    //Node<K,V>**update=new Node<K,V>*[MAX_LEVEL];
+
     Node<K, V> *node = header;
 
     //TODO just for debug
-    if(key==6){
-        cout<<"attention"<<endl;
+    if (key == 6) {
+        cout << "attention" << endl;
     }
 
     //TODO 刚开始时level==0时怎么办?另外，这里node->forward[i]有可能越界吧?
@@ -194,7 +204,7 @@ bool SkipList<K, V>::insert(K key, V value) {
         node = update[i];
         //TODO 这里有bug吧，万一update数组有效长度还没有newNode的有效长度那么长呢?
         //不会的，实际上理一下思路就会发现不可能出现那种情况，实际上update是集合了所有指向下一个节点的指针
-        //TODO 问题就出在这里，update数组是在栈中创建的，而不是在堆上创建的，一旦执行完就会回收它的地址!
+        //TODO 问题就出在这里，update数组是在栈中创建的，而不是在堆上创建的，一旦执行完就会回收它的地址! 但是也不对啊，因为update中保存的都是其他节点的地址，它只是起一个中转和保存的作用呀
         newNode->forward[i] = node->forward[i];
         node->forward[i] = newNode;
     }
@@ -202,11 +212,11 @@ bool SkipList<K, V>::insert(K key, V value) {
     /////////////////start of debug/////////////////
     //TODO just for debug
     //dumpNodeDetail(newNode, nodeLevel);
-    Node<K,V>*tmp=header;
-    while(tmp->forward[0]!=footer){
-        tmp=tmp->forward[0];
+    Node<K, V> *tmp = header;
+    while (tmp->forward[0] != footer) {
+        tmp = tmp->forward[0];
         dumpNodeDetail(tmp, tmp->nodeLevel);
-        cout<<"----------------------------"<<endl;
+        cout << "----------------------------" << endl;
     }
     cout << endl;
     ////////////////end of debug////////////////
@@ -220,7 +230,7 @@ void SkipList<K, V>::dumpNodeDetail(Node<K, V> *node, int nodeLevel) {
     if (node == nullptr) {
         return;
     }
-    cout<<"node->key:"<<node->key<<",node->value:"<<node->value<<endl;
+    cout << "node->key:" << node->key << ",node->value:" << node->value << endl;
     //注意是i<=nodeLevel而不是i<nodeLevel //TODO debug发现是在插入(6，206）时访问到forward[4]时出错，但是此时nodeLevel不是5吗？
     for (int i = 0; i <= nodeLevel; ++i) {
         cout << "forward[" << i << "]:" << "key:" << node->forward[i]->key << ",value:" << node->forward[i]->value
