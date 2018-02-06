@@ -82,7 +82,8 @@ void SkipList<K, V>::createList(K footerKey) {
     //设置头结点//TODO 头结点不能做成动态增长吗?
     createNode(MAX_LEVEL, header);
     for (int i = 0; i < MAX_LEVEL; ++i) {
-        header->forward[i] = footer;
+        //header->forward[i] = footer;
+        header->forward[i] = *footer;
     }
     nodeCount = 0;
 }
@@ -94,17 +95,21 @@ void SkipList<K, V>::createNode(int level, Node<K, V> *&node) {
     //需要初始化数组
     //TODO 这里需要对数组逐个初始化吗?
     if (level > 0) {
-        node->forward = new Node<K, V> *[level];
+        //node->forward = new Node<K, V> *[level];
+        node->forward=new Node<K,V>[level];
     }
     ////////////////////////////TODO 有必要这样吗？但是目前发现好像还真是这个原因!!!难道是编译器把它当成了二维数组的原因？///////////////////
+    /*
     for (int i = 0; i < level; ++i) {
         node->forward[i] = new Node<K, V>(NULL, NULL);
     }
+    */
     //////////////////////////////////////////////////////////////
 
     node->nodeLevel = level;
     assert(node != NULL);
 };
+
 
 template<typename K, typename V>
 void SkipList<K, V>::createNode(int level, Node<K, V> *&node, K key, V value) {
@@ -112,15 +117,17 @@ void SkipList<K, V>::createNode(int level, Node<K, V> *&node, K key, V value) {
     //需要初始化数组
     //TODO 这里需要对数组逐个初始化吗?
     if (level > 0) {
-        node->forward = new Node<K, V> *[level];
+        //node->forward = new Node<K, V> *[level];
+        node->forward = new Node<K, V> [level];
     }
     node->nodeLevel = level;
     assert(node != NULL);
 };
 
+
 template<typename K, typename V>
 void SkipList<K, V>::freeList() {
-
+    /*
     Node<K, V> *p = header;
     Node<K, V> *q;
     while (p != NULL) {
@@ -130,23 +137,26 @@ void SkipList<K, V>::freeList() {
         p = q;
     }
     delete p;
+    */
+
 }
 
 template<typename K, typename V>
 Node<K, V> *SkipList<K, V>::search(const K key) const {
-    Node<K, V> *node = header;
+    Node<K, V> node = *header;
     for (int i = level; i >= 0; --i) {
-        while ((node->forward[i])->key < key) {
-            node = node->forward[i];
+        while ((node.forward[i]).key < key) {
+            node = node.forward[i];
         }
     }
-    node = node->forward[0];
-    if (node->key == key) {
+    node = node.forward[0];
+    if (node.key == key) {
         return node;
     } else {
         return nullptr;
     }
 };
+
 
 //TODO 插入代码还有很大的问题!
 template<typename K, typename V>
