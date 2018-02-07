@@ -3,7 +3,6 @@
 
 using namespace std;
 
-//TODO 另外，为什么每次运行的结果都不确定？应该是初始化或者是边界条件没处理好。
 int main() {
 
     cout << "skiplist test now starts..." << endl;
@@ -12,7 +11,7 @@ int main() {
     SkipList<int, int> skipList(0x7fffffff);
 
     int length = 10;
-    //测试插入 //TODO 插入应该还有问题
+
     for (int i = 1; i <= length; ++i) {
         skipList.insert(i, i + 200);
     }
@@ -40,10 +39,11 @@ int main() {
     value = -1;
 
     //测试移除,测试不通过
-    key=6;
+    key = 6;
+    cout<<endl<<"start to remove"<<endl;
     bool removeResult = skipList.remove(key, value);
     if (removeResult) {
-        cout << "removed node whose key is "<<key<<" and value is " << value << endl;
+        cout << "removed node whose key is " << key << " and value is " << value << endl;
     } else {
         cout << "removed failure" << endl;
     }
