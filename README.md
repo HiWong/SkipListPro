@@ -53,7 +53,7 @@ SkipList还有一个优势就是实现简单，SkipList的实现只花了2个小
 
 如下是插入结点示意图:
 
-<img src="res/skiplist_insert.png" width="1000" height="170"/>
+<img src="res/skiplist_insert.png" width="1000" height="280"/>
 
 其实插入节点的关键就是找到合适的插入位置，即从所有小于待插入节点key值的节点中，找出最大的那个，所以插入节点的过程如下:
 
@@ -115,7 +115,7 @@ SkipList还有一个优势就是实现简单，SkipList的实现只花了2个小
 
 移除结点的示意图如下:
 
-<img src="res/skiplist_remove.png" width="1000" height="170"/>
+<img src="res/skiplist_remove.png" width="1000" height="280"/>
 
 移除结点其实很简单,就分以下3步:
 
