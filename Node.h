@@ -37,8 +37,8 @@ private:
     V value;
     //Node *forward[1];
     //一个指针数组,注意要声明成Node<K,V>**而不是Node** //TODO 是不是有必要记录每个Node本身的level呢?不然容易越界吧？
-    //Node<K, V> **forward;
-    Node<K, V> *forward;
+    Node<K, V> **forward;
+    //Node<K, V> *forward;
 
     //TODO 这个是自己为了方便debug添加的，后面可能要去掉
     int nodeLevel;

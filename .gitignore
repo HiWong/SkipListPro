@@ -45,6 +45,8 @@ signing.properties
 module/
 captures/
 
+cmake-build-debug/
+.cmake-build-debug/
 
 freeline/
 freeline.py
