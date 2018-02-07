@@ -15,13 +15,13 @@ SkipList还有一个优势就是实现简单，SkipList的实现只花了2个小
 
 其实跳表就是在普通单向链表的基础上增加了一些索引，而且这些索引是分层的，从而可以快速地查的到数据。如下是一个典型的跳表:
 
-<img src="res/skiplist.jpeg" width="1000" height="200"/>
+<img src="res/skiplist.jpeg" width="1000" height="170"/>
 
 ### 查找
 
 查找示意图如下:
 
-<img src="res/skiplist_search.png" width="1000" height="200"/>
+<img src="res/skiplist_search.jpeg" width="1000" height="170"/>
 
 比如我们要查找key为19的结点，那么我们不需要逐个遍历，而是按照如下步骤:
 
@@ -53,7 +53,7 @@ SkipList还有一个优势就是实现简单，SkipList的实现只花了2个小
 
 如下是插入结点示意图:
 
-<img src="res/skiplist_insert.png" width="1000" height="200"/>
+<img src="res/skiplist_insert.png" width="1000" height="170"/>
 
 其实插入节点的关键就是找到合适的插入位置，即从所有小于待插入节点key值的节点中，找出最大的那个，所以插入节点的过程如下:
 
@@ -115,7 +115,7 @@ SkipList还有一个优势就是实现简单，SkipList的实现只花了2个小
 
 移除结点的示意图如下:
 
-<img src="res/skiplist_remove.png" width="1000" height="200"/>
+<img src="res/skiplist_remove.png" width="1000" height="170"/>
 
 移除结点其实很简单,就分以下3步:
 
