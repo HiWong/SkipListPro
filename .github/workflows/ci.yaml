@@ -1,0 +1,22 @@
+name: leetcode.rs
+
+# Run this workflow every time a new commit pushed to your repository
+on:
+  push:
+  pull_request:
+
+env:
+  RUSTFLAGS: -Dwarnings
+
+jobs:
+  cc-test:
+    name: memleak test
+    runs-on: ubuntu-latest
+    container: ${{ matrix.container }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v3
+      - run: sudo apt update && sudo apt install cmake build-essential libgtest-dev clang-12 -y
+      - run: |
+          cmake -B build -DBUILD_MEMLEAK=ON && cmake --build build && make -C build test
+

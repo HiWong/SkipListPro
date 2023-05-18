@@ -10,17 +10,14 @@ add_executable(skiplist src/main.cc src/node.h src/skiplist.h src/random.h)
 # cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DBUILD_MEMLEAK=ON -G Ninja -B build 
 # ninja -C build 
 # ctest --test-dir build --rerun-failed --output-on-failure
-if(BUILD_MEMLEAK)
-    set(MEMORY_LEAK ON)
-endif()
-
 set(BUILD_FLAGS "-DDEBUG -g -Wall -Wpedantic" )
 set(LD_FLAGS "")
 
-if (MEMORY_LEAK)
+if(BUILD_MEMLEAK)
     set(BUILD_FLAGS "${BUILD_FLAGS} -fsanitize=address")
     set(LD_FLAGS "-fsanitize=address")
 endif()
+
 
 target_compile_options(skiplist PRIVATE ${BUILD_FLAGS})
 target_link_options(skiplist PRIVATE  ${LD_FLAGS})
